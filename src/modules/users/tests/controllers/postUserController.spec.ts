@@ -36,7 +36,7 @@ describe('postUserController Integration Tests', () => {
 
     expect(response.status).toBe(200)
     expect(response.body).toEqual({
-      message: 'Usuario adicionado',
+      message: 'Usuário adicionado',
       status: 201,
     })
   })

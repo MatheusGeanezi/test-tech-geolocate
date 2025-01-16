@@ -1,16 +1,14 @@
 import { Request, Response } from 'express'
 import { STATUS } from '../../../utils/responseStatus'
-import { postUserService } from '../services/postUserService'
+import { listUsersService } from '../services/listUsersService'
 
-export const postUserController = async (
+export const listUsersController = async (
   req: Request,
   res: Response,
 ): Promise<void> => {
   try {
-    await postUserService(req.body)
-    res
-      .status(200)
-      .json({ message: 'Usuário adicionado', status: STATUS.CREATED })
+    const response = await listUsersService()
+    res.status(200).json({ data: response, status: STATUS.OK })
   } catch (error) {
     if (error instanceof Error) {
       res.status(409).json({ error: error.message, status: STATUS.BAD_REQUEST })
