@@ -13,7 +13,7 @@ export const listUsersController = async (
     if (error instanceof Error) {
       res.status(409).json({ error: error.message, status: STATUS.BAD_REQUEST })
     } else {
-      res.status(500).json({ error: 'Erro desconhecido' })
+      res.status(500).json({ error: 'Erro de Servidor' })
     }
   }
 }

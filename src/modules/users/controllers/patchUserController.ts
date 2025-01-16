@@ -1,15 +1,16 @@
 import { Request, Response } from 'express'
 import { STATUS } from '../../../utils/responseStatus'
-import { listOneUserService } from '../services/listOneUserService'
+import { patchUserService } from '../services/patchUserService'
 
-export const listOneUserController = async (
+export const patchUserController = async (
   req: Request,
   res: Response,
 ): Promise<void> => {
   try {
-    const id = req.params.id
-    const response = await listOneUserService(id)
-    res.status(200).json({ data: response, status: STATUS.OK })
+    await patchUserService(req.body)
+    res
+      .status(201)
+      .json({ message: 'Usuário atualizado', status: STATUS.UPDATED })
   } catch (error) {
     if (error instanceof Error) {
       res.status(400).json({ error: error.message, status: STATUS.BAD_REQUEST })
