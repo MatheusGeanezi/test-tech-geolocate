@@ -17,7 +17,7 @@ const mockResponse = (): Partial<Response> => {
   return res
 }
 
-describe('listUsersController', () => {
+describe('listOneUserController', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })

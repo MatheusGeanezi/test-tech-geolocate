@@ -118,8 +118,99 @@ regionsRouter
    *                   example: "Erro no servidor"
    */
   .post('/', postRegionController)
-  .get('/', listRegionsController)
+
+  /**
+   * @swagger
+   * /api/regions/{id}:
+   *   get:
+   *     tags:
+   *       - Regiões
+   *     summary: Obter detalhes de uma região específica
+   *     description: Busca os detalhes de uma região pelo seu ID.
+   *     parameters:
+   *       - in: path
+   *         name: id
+   *         required: true
+   *         description: O ID da região a ser buscada.
+   *         schema:
+   *           type: string
+   *           example: 64f2c5e2b12345678a9bcdef
+   *     responses:
+   *       200:
+   *         description: Detalhes da região retornados com sucesso.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 _id:
+   *                   type: string
+   *                   example: 64f2c5e2b12345678a9bcdef
+   *                 name:
+   *                   type: string
+   *                   example: Região Centro
+   *                 geometry:
+   *                   type: object
+   *                   properties:
+   *                     type:
+   *                       type: string
+   *                       example: Polygon
+   *                     coordinates:
+   *                       type: array
+   *                       items:
+   *                         type: array
+   *                         items:
+   *                           type: array
+   *                           items:
+   *                             type: number
+   *                       example:
+   *                         -
+   *                           - [-46.633308, -23.55052]
+   *                           - [-46.629308, -23.54852]
+   *                           - [-46.624308, -23.55252]
+   *                           - [-46.633308, -23.55052]
+   *                 userId:
+   *                   type: string
+   *                   example: 64f2c5e2b12345678a9bcdef
+   *       400:
+   *         description: Erro na requisição (ID inválido ou outros erros de validação).
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 error:
+   *                   type: string
+   *                   example: ID inválido ou não encontrado.
+   *                 status:
+   *                   type: string
+   *                   example: BAD_REQUEST
+   *       404:
+   *         description: Região não encontrada.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 error:
+   *                   type: string
+   *                   example: Região não encontrada.
+   *                 status:
+   *                   type: string
+   *                   example: NOT_FOUND
+   *       500:
+   *         description: Erro interno do servidor.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 error:
+   *                   type: string
+   *                   example: Erro interno do servidor.
+   */
   .get('/:id', listOneRegionController)
+  .get('/', listRegionsController)
   .patch('/', patchRegionController)
   .delete('/:id', deleteRegionController)
 export default regionsRouter
