@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  api:
+    build: .
+    container_name: api-container
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/oz-tech-test
+    volumes:
+      - ./src:/app/src
+    depends_on:
+      - mongo
+    networks:
+      - app-network
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo-container
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - app-network
+
+# Definir a rede
+networks:
+  app-network:
+    driver: bridge
+
+# Volumes
+volumes:
+  mongo_data:
