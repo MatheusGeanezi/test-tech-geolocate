@@ -1,16 +1,16 @@
 import mongoose, { Schema, Document, Types } from 'mongoose'
 
-export interface IAttendance {
-  date: string
-  present: boolean
+export interface ICoordinates {
+  lat: number
+  lng: number
 }
 
 export interface IUsers extends Document {
   _id?: Types.ObjectId
   name: string
   email: string
-  address?: boolean
-  coordinates?: string
+  address?: string
+  coordinates?: ICoordinates
 }
 
 const usersSchema: Schema = new Schema(
@@ -40,7 +40,7 @@ const usersSchema: Schema = new Schema(
   },
   {
     timestamps: true,
-  }
+  },
 )
 
 const Users = mongoose.model<IUsers>('users', usersSchema)

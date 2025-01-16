@@ -1,3 +1,5 @@
+import { geoLocateCoordToAdress } from '../../../utils/geoLocate'
+import { postUserRepository } from '../repository/postUserRepository'
 import { IUsers } from '../schema/usersSchema'
 
 export const postUserService = async (body: IUsers): Promise<void> => {
@@ -15,4 +17,16 @@ export const postUserService = async (body: IUsers): Promise<void> => {
       'Você deve fornecer apenas endereço ou coordenadas, não ambos ou nenhum.',
     )
   }
+
+  const location = hasCoordinates
+    ? `${coordinates.lat}, ${coordinates.lng}`
+    : address
+
+  const geoLocate = await geoLocateCoordToAdress(location)
+  await postUserRepository({
+    name,
+    email,
+    address: geoLocate.address,
+    coordinates: geoLocate.geometry,
+  } as IUsers)
 }
