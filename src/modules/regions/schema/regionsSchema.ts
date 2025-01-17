@@ -48,6 +48,8 @@ const regionSchema: Schema = new Schema(
   },
 )
 
+regionSchema.index({ geometry: '2dsphere' })
+
 const Regions = mongoose.model<IRegion>('regions', regionSchema)
 
 export default Regions

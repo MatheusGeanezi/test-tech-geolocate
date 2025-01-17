@@ -14,7 +14,10 @@ export const listOneUserController = async (
     if (error instanceof Error) {
       res.status(400).json({ error: error.message, status: STATUS.BAD_REQUEST })
     } else {
-      res.status(500).json({ error: 'Erro de Servidor' })
+      res.status(500).json({
+        error: 'Erro interno do servidor',
+        status: STATUS.INTERNAL_SERVER_ERROR,
+      })
     }
   }
 }

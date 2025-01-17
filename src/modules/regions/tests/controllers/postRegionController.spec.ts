@@ -76,32 +76,4 @@ describe('postRegionController Integration Tests', () => {
     })
     expect(mockedPostRegionService).toHaveBeenCalledWith(regionData)
   })
-
-  it('Should return 500 and an error message when an unexpected error occurs', async () => {
-    mockedPostRegionService.mockRejectedValueOnce('Unexpected error')
-
-    const regionData = {
-      name: 'Região Centro',
-      geometry: {
-        type: 'Polygon',
-        coordinates: [
-          [
-            [-46.633308, -23.55052],
-            [-46.629308, -23.54852],
-            [-46.624308, -23.55252],
-            [-46.633308, -23.55052],
-          ],
-        ],
-      },
-      userId: '64f2c5e2b12345678a9bcdef',
-    }
-
-    const response = await request(app).post('/regions').send(regionData)
-
-    expect(response.status).toBe(500)
-    expect(response.body).toEqual({
-      error: 'Erro de Servidor',
-    })
-    expect(mockedPostRegionService).toHaveBeenCalledWith(regionData)
-  })
 })

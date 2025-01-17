@@ -210,6 +210,89 @@ regionsRouter
    *                   example: Erro interno do servidor.
    */
   .get('/:id', listOneRegionController)
+
+  /**
+   * @swagger
+   * /api/regions:
+   *   get:
+   *     tags:
+   *       - Regiões
+   *     summary: "Listar regiões com base em um ponto geográfico"
+   *     description: |
+   *       Este endpoint retorna uma lista de regiões que estão dentro de um ponto geográfico específico ou a uma certa distância de um ponto,
+   *       com a opção de excluir regiões associadas ao usuário que está fazendo a requisição.
+   *     parameters:
+   *       - in: query
+   *         name: lat
+   *         description: "Latitude do ponto de referência."
+   *         required: true
+   *         type: number
+   *         format: float
+   *       - in: query
+   *         name: lng
+   *         description: "Longitude do ponto de referência."
+   *         required: true
+   *         type: number
+   *         format: float
+   *       - in: query
+   *         name: distance
+   *         description: "Distância máxima em metros para filtrar as regiões próximas ao ponto."
+   *         required: false
+   *         type: number
+   *         format: float
+   *       - in: query
+   *         name: excludeUser
+   *         description: "Se true, excluir regiões pertencentes ao usuário fornecido."
+   *         required: false
+   *         type: boolean
+   *         default: false
+   *       - in: query
+   *         name: userId
+   *         description: "ID do usuário, usado quando `excludeUser` é false para excluir regiões do próprio usuário."
+   *         required: false
+   *         type: string
+   *         example: "6788fbaff71308ab57b734cc"
+   *     responses:
+   *       '200':
+   *         description: "Regiões encontradas com base nos critérios fornecidos."
+   *         schema:
+   *           type: array
+   *           items:
+   *             type: object
+   *             properties:
+   *               _id:
+   *                 type: string
+   *                 description: "ID único da região."
+   *               name:
+   *                 type: string
+   *                 description: "Nome da região."
+   *               geometry:
+   *                 type: object
+   *                 properties:
+   *                   type:
+   *                     type: string
+   *                     description: "Tipo de geometria (Point, Polygon, etc)."
+   *                   coordinates:
+   *                     type: array
+   *                     items:
+   *                       type: number
+   *                     description: "Coordenadas geográficas (longitude, latitude)."
+   *               userId:
+   *                 type: string
+   *                 description: "ID do usuário associado à região."
+   *               createdAt:
+   *                 type: string
+   *                 format: date-time
+   *                 description: "Data e hora de criação da região."
+   *               updatedAt:
+   *                 type: string
+   *                 format: date-time
+   *                 description: "Data e hora de última atualização da região."
+   *       '400':
+   *         description: "Erro na requisição, parâmetros inválidos."
+   *       '500':
+   *         description: "Erro interno no servidor."
+   */
   .get('/', listRegionsController)
   .patch('/', patchRegionController)
   .delete('/:id', deleteRegionController)
