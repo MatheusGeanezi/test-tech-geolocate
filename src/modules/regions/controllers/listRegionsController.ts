@@ -4,17 +4,14 @@ import {
   IFilterRegions,
   listRegionsService,
 } from '../services/listRegionsService'
+import {
+  errorServerDefault,
+  errorServiceDefault,
+} from '../../../utils/errorServerDefault'
 
 export const listRegionsController = async (req: Request, res: Response) => {
   try {
     const { lat, lng, distance, excludeUser, userId } = req.query
-
-    if (!lat || !lng) {
-      return res.status(400).json({
-        error: 'Parâmetros lat e lng são obrigatórios',
-        status: STATUS.BAD_REQUEST,
-      })
-    }
 
     const regions = await listRegionsService({
       lat: parseFloat(lat as string),
@@ -26,9 +23,11 @@ export const listRegionsController = async (req: Request, res: Response) => {
 
     res.status(200).json({ data: regions, status: STATUS.OK })
   } catch (error) {
-    res.status(500).json({
-      error: 'Erro interno do servidor',
-      status: STATUS.INTERNAL_SERVER_ERROR,
-    })
+    errorServiceDefault(res, error)
+    // if (error instanceof Error) {
+    //   res.status(400).json({ error: error.message, status: STATUS.BAD_REQUEST })
+    // } else {
+    //   res.status(500).json(errorServerDefault)
+    // }
   }
 }

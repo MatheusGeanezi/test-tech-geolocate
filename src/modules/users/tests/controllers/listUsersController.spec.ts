@@ -1,29 +1,25 @@
-import { Request, Response } from 'express'
-import { listUsersService } from '../../services/listUsersService'
+import request from 'supertest'
+import express, { Application } from 'express'
+import bodyParser from 'body-parser'
 import { listUsersController } from '../../controllers/listUsersController'
+import { listUsersService } from '../../services/listUsersService'
 
 jest.mock('../../services/listUsersService')
 
 const mockedListUsersService = listUsersService as jest.Mock
 
-const mockRequest = (): Partial<Request> => ({
-  body: {},
-})
+const app: Application = express()
+app.use(bodyParser.json())
 
-const mockResponse = (): Partial<Response> => {
-  const res: Partial<Response> = {}
-  res.status = jest.fn().mockReturnValue(res)
-  res.json = jest.fn().mockReturnValue(res)
-  return res
-}
+app.get('/users', listUsersController)
 
-describe('listUsersController', () => {
+describe('listUsersController Integration Tests', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
 
   it('Should return a list of users with status 200', async () => {
-    const mockUsers: any[] = [
+    const mockUsers = [
       {
         name: 'joão',
         email: 'joão@example.com',
@@ -34,14 +30,11 @@ describe('listUsersController', () => {
 
     mockedListUsersService.mockResolvedValue(mockUsers)
 
-    const req = mockRequest() as Request
-    const res = mockResponse() as Response
-
-    await listUsersController(req, res)
+    const response = await request(app).get('/users')
 
     expect(mockedListUsersService).toHaveBeenCalledTimes(1)
-    expect(res.status).toHaveBeenCalledWith(200)
-    expect(res.json).toHaveBeenCalledWith({
+    expect(response.status).toBe(200)
+    expect(response.body).toEqual({
       data: mockUsers,
       status: 200,
     })

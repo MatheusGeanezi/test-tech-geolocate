@@ -1,39 +1,33 @@
-import { Request, Response } from 'express'
-import { listOneUserService } from '../../services/listOneUserService'
+import request from 'supertest'
+import express, { Application } from 'express'
+import bodyParser from 'body-parser'
 import { listOneUserController } from '../../controllers/listOneUserController'
+import { listOneUserService } from '../../services/listOneUserService'
 
 jest.mock('../../services/listOneUserService')
 
 const mockedListOneUserService = listOneUserService as jest.Mock
 
-const mockRequest = (): Partial<Request> => ({
-  params: { id: 'id' },
-})
+const app: Application = express()
+app.use(bodyParser.json())
 
-const mockResponse = (): Partial<Response> => {
-  const res: Partial<Response> = {}
-  res.status = jest.fn().mockReturnValue(res)
-  res.json = jest.fn().mockReturnValue(res)
-  return res
-}
+app.get('/users/:id', listOneUserController)
 
-describe('listOneUserController', () => {
+describe('listOneUserController Integration Tests', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
 
-  it('Should return a 409 if user not exists', async () => {
+  it('Should return 400 if the user does not exist', async () => {
     mockedListOneUserService.mockRejectedValue(
       new Error('Usuário não encontrado'),
     )
-    const req = mockRequest() as Request
-    const res = mockResponse() as Response
 
-    await listOneUserController(req, res)
+    const response = await request(app).get('/users/id')
 
     expect(mockedListOneUserService).toHaveBeenCalledTimes(1)
-    expect(res.status).toHaveBeenCalledWith(400)
-    expect(res.json).toHaveBeenCalledWith({
+    expect(response.status).toBe(400)
+    expect(response.body).toEqual({
       error: 'Usuário não encontrado',
       status: 400,
     })
@@ -49,14 +43,11 @@ describe('listOneUserController', () => {
 
     mockedListOneUserService.mockResolvedValue(mockUser)
 
-    const req = mockRequest() as Request
-    const res = mockResponse() as Response
-
-    await listOneUserController(req, res)
+    const response = await request(app).get('/users/id')
 
     expect(mockedListOneUserService).toHaveBeenCalledTimes(1)
-    expect(res.status).toHaveBeenCalledWith(200)
-    expect(res.json).toHaveBeenCalledWith({
+    expect(response.status).toBe(200)
+    expect(response.body).toEqual({
       data: mockUser,
       status: 200,
     })

@@ -16,6 +16,10 @@ export const listRegionsService = async ({
   excludeUser,
   userId,
 }: IFilterRegions) => {
+  if (!lat || !lng) {
+    throw new Error('Parâmetros lat e lng são obrigatórios')
+  }
+
   const point = {
     type: 'Point',
     coordinates: [parseFloat(lng.toString()), parseFloat(lat.toString())],

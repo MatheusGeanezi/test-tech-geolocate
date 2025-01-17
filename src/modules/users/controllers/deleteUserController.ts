@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import { STATUS } from '../../../utils/responseStatus'
 import { deleteUserService } from '../services/deleteUserService'
+import { errorServiceDefault } from '../../../utils/errorServerDefault'
 
 export const deleteUserController = async (
   req: Request,
@@ -11,13 +12,6 @@ export const deleteUserController = async (
     await deleteUserService(id)
     res.status(200).json({ message: 'Usuário removido', status: STATUS.OK })
   } catch (error) {
-    if (error instanceof Error) {
-      res.status(400).json({ error: error.message, status: STATUS.BAD_REQUEST })
-    } else {
-      res.status(500).json({
-        error: 'Erro interno do servidor',
-        status: STATUS.INTERNAL_SERVER_ERROR,
-      })
-    }
+    errorServiceDefault(res, error)
   }
 }

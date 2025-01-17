@@ -41,19 +41,19 @@ describe('postUserController Integration Tests', () => {
     })
   })
 
-  it('Should return 409 if name or email is missing', async () => {
+  it('Should return 400 if name or email is missing', async () => {
     const response = await request(app).post('/users').send({
       address: 'barão de itapura 800,campinas',
     })
 
-    expect(response.status).toBe(409)
+    expect(response.status).toBe(400)
     expect(response.body).toEqual({
       error: 'Nome e email são obrigatórios',
       status: 400,
     })
   })
 
-  it('Should return 409 if both address and coordinates are provided', async () => {
+  it('Should return 400 if both address and coordinates are provided', async () => {
     const response = await request(app)
       .post('/users')
       .send({
@@ -63,7 +63,7 @@ describe('postUserController Integration Tests', () => {
         coordinates: { lat: -23.558588, lng: -46.661511 },
       })
 
-    expect(response.status).toBe(409)
+    expect(response.status).toBe(400)
     expect(response.body).toEqual({
       error:
         'Você deve fornecer apenas endereço ou coordenadas, não ambos ou nenhum.',
@@ -71,7 +71,7 @@ describe('postUserController Integration Tests', () => {
     })
   })
 
-  it('Should return 500 if an unexpected error occurs', async () => {
+  it('Should return 400 if an unexpected error occurs', async () => {
     mockedGeoLocateCoordToAdress.mockRejectedValue(
       new Error('Erro API opencage'),
     )
@@ -82,7 +82,7 @@ describe('postUserController Integration Tests', () => {
       address: 'barão de itapura 800,campinas',
     })
 
-    expect(response.status).toBe(409)
+    expect(response.status).toBe(400)
     expect(response.body).toEqual({
       error: 'Erro API opencage',
       status: 400,

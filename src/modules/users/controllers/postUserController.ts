@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import { STATUS } from '../../../utils/responseStatus'
 import { postUserService } from '../services/postUserService'
+import { errorServiceDefault } from '../../../utils/errorServerDefault'
 
 export const postUserController = async (
   req: Request,
@@ -12,13 +13,6 @@ export const postUserController = async (
       .status(200)
       .json({ message: 'Usuário adicionado', status: STATUS.CREATED })
   } catch (error) {
-    if (error instanceof Error) {
-      res.status(409).json({ error: error.message, status: STATUS.BAD_REQUEST })
-    } else {
-      res.status(500).json({
-        error: 'Erro interno do servidor',
-        status: STATUS.INTERNAL_SERVER_ERROR,
-      })
-    }
+    errorServiceDefault(res, error)
   }
 }
