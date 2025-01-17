@@ -393,5 +393,52 @@ regionsRouter
    *                   example: "Erro interno do servidor"
    */
   .patch('/', patchRegionController)
+  /**
+   * @swagger
+   * /api/regions/{id}:
+   *   delete:
+   *     tags:
+   *       - Regiões
+   *     summary: Deletar uma região
+   *     description: Remove uma região específica com base no ID fornecido.
+   *     parameters:
+   *       - in: path
+   *         name: id
+   *         required: true
+   *         description: O ID da região que será deletada.
+   *         schema:
+   *           type: string
+   *     responses:
+   *       200:
+   *         description: Região deletada com sucesso.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 message:
+   *                   type: string
+   *                   example: Região deletada com sucesso.
+   *       404:
+   *         description: Região não encontrada.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 message:
+   *                   type: string
+   *                   example: Região não encontrada.
+   *       500:
+   *         description: Erro no servidor.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 message:
+   *                   type: string
+   *                   example: Erro ao deletar região.
+   */
   .delete('/:id', deleteRegionController)
 export default regionsRouter
