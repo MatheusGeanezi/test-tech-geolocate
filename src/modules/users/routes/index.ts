@@ -134,10 +134,6 @@ usersRouter
 
   /**
    * @swagger
-   * tags:
-   *   - name: Usuarios
-   *     description: Gerenciamento de usuários
-   *
    * /api/users/{id}:
    *   get:
    *     tags:

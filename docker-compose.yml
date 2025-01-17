@@ -9,6 +9,7 @@ services:
     environment:
       - MONGO_URI=mongodb://mongo:27017/oz-tech-test
       - OPENCAGE_API_KEY=0768e57206db4935975a585de7e9c790
+      - PORT=3000
     volumes:
       - ./src:/app/src
     depends_on:

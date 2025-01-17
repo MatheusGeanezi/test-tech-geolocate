@@ -1,6 +1,6 @@
 🌟 Projeto Teste tech-OZmap
 
-API RESTful para gerenciar usuários e localizações
+Este projeto é uma API RESTful construída para gerenciar usuários e localizações, com suporte para geocodificação via API OpenCage.
 
 ---
 
@@ -16,6 +16,7 @@ API RESTful para gerenciar usuários e localizações
 - **Documentação da API**: Swagger.
 - **Geocodificação**: API OpenCage.
 - **Containerização**: Docker.
+- **Arquitetura em Camadas**
 
 ---
 
