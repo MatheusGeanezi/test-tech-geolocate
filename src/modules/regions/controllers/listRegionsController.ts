@@ -4,10 +4,7 @@ import {
   IFilterRegions,
   listRegionsService,
 } from '../services/listRegionsService'
-import {
-  errorServerDefault,
-  errorServiceDefault,
-} from '../../../utils/errorServerDefault'
+import { errorServiceDefault } from '../../../utils/errorServerDefault'
 
 export const listRegionsController = async (req: Request, res: Response) => {
   try {
@@ -24,10 +21,5 @@ export const listRegionsController = async (req: Request, res: Response) => {
     res.status(200).json({ data: regions, status: STATUS.OK })
   } catch (error) {
     errorServiceDefault(res, error)
-    // if (error instanceof Error) {
-    //   res.status(400).json({ error: error.message, status: STATUS.BAD_REQUEST })
-    // } else {
-    //   res.status(500).json(errorServerDefault)
-    // }
   }
 }

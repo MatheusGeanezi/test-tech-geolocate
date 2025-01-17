@@ -294,6 +294,104 @@ regionsRouter
    *         description: "Erro interno no servidor."
    */
   .get('/', listRegionsController)
+
+  /**
+   * @swagger
+   * /api/regions:
+   *   patch:
+   *     tags:
+   *       - Regiões
+   *     summary: Atualizar dados de uma região
+   *     description: Atualiza informações específicas de uma região. Apenas os campos enviados no corpo da requisição serão atualizados.
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               _id:
+   *                 type: string
+   *                 format: uuid
+   *                 description: ID da região a ser atualizada.
+   *                 example: "64b2f6d8a2f4cabc12345678"
+   *               name:
+   *                 type: string
+   *                 description: Nome da região.
+   *                 example: "Nova Região"
+   *               geometry:
+   *                 type: object
+   *                 description: Coordenadas geométricas da região.
+   *                 properties:
+   *                   type:
+   *                     type: string
+   *                     enum: [Polygon]
+   *                     description: Tipo de geometria.
+   *                     example: "Polygon"
+   *                   coordinates:
+   *                     type: array
+   *                     description: Coordenadas da região no formato de array.
+   *                     items:
+   *                       type: array
+   *                       items:
+   *                         type: number
+   *                     example: [[[123.45, 67.89], [123.46, 67.88], [123.47, 67.87]]]
+   *               userId:
+   *                 type: string
+   *                 format: uuid
+   *                 description: ID do usuário associado à região.
+   *                 example: "64b2e6d8a2f4cabc12345678"
+   *               createdAt:
+   *                 type: string
+   *                 format: date-time
+   *                 description: Data e hora de criação da região.
+   *                 example: "2025-01-16T12:34:56Z"
+   *               updatedAt:
+   *                 type: string
+   *                 format: date-time
+   *                 description: Data e hora de última atualização da região.
+   *                 example: "2025-01-17T15:45:00Z"
+   *     responses:
+   *       200:
+   *         description: Região atualizada com sucesso.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 status:
+   *                   type: integer
+   *                   example: 200
+   *                 message:
+   *                   type: string
+   *                   example: "Região atualizada com sucesso."
+   *       400:
+   *         description: Erro de validação ou região não encontrada.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 status:
+   *                   type: integer
+   *                   example: 400
+   *                 error:
+   *                   type: string
+   *                   example: "O nome da região é obrigatório"
+   *       500:
+   *         description: Erro interno do servidor.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 status:
+   *                   type: integer
+   *                   example: 500
+   *                 error:
+   *                   type: string
+   *                   example: "Erro interno do servidor"
+   */
   .patch('/', patchRegionController)
   .delete('/:id', deleteRegionController)
 export default regionsRouter
